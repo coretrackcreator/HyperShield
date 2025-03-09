@@ -1,0 +1,69 @@
+import tkinter as tk
+from tkinter import messagebox
+import locale
+import ctypes
+import webbrowser
+
+# Hide terminal on Windows
+ctypes.windll.kernel32.FreeConsole()
+
+class HyperShieldApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("HyperShield")
+        self.root.geometry("600x400")
+        self.root.configure(bg="#1e1e1e")
+        
+        self.lang = locale.getdefaultlocale()[0][:2]  # Detect system language
+        self.translations = {
+            "en": {"title": "HyperShield", "scan": "Run Scan", "optimize": "Optimize System",
+                   "network": "Monitor Network", "free": "Free Version", "pro": "Upgrade to Pro",
+                   "scan_msg": "System scan started!", "opt_msg": "System optimization complete!",
+                   "net_msg": "Network monitoring enabled!", "free_msg": "You are using the Free version of HyperShield.",
+                   "pro_msg": "Upgrade to Pro for advanced features!", "pay_msg": "Redirecting to payment page..."},
+            "pt": {"title": "HyperShield", "scan": "Executar Varredura", "optimize": "Otimizar Sistema",
+                   "network": "Monitorar Rede", "free": "Versão Grátis", "pro": "Atualizar para Pro",
+                   "scan_msg": "Varredura do sistema iniciada!", "opt_msg": "Otimização do sistema concluída!",
+                   "net_msg": "Monitoramento de rede ativado!", "free_msg": "Você está usando a versão gratuita do HyperShield.",
+                   "pro_msg": "Atualize para a versão Pro para recursos avançados!", "pay_msg": "Redirecionando para a página de pagamento..."}
+        }
+        
+        self.t = self.translations.get(self.lang, self.translations["en"])  # Get correct translation or default to English
+        
+        self.title_label = tk.Label(root, text=self.t["title"], font=("Arial", 20, "bold"), fg="#00ff00", bg="#1e1e1e")
+        self.title_label.pack(pady=20)
+        
+        self.scan_button = tk.Button(root, text=self.t["scan"], font=("Arial", 14), bg="#00ff00", fg="#1e1e1e", command=self.run_scan)
+        self.scan_button.pack(pady=10)
+        
+        self.optimize_button = tk.Button(root, text=self.t["optimize"], font=("Arial", 14), bg="#00ff00", fg="#1e1e1e", command=self.optimize_system)
+        self.optimize_button.pack(pady=10)
+        
+        self.network_button = tk.Button(root, text=self.t["network"], font=("Arial", 14), bg="#00ff00", fg="#1e1e1e", command=self.monitor_network)
+        self.network_button.pack(pady=10)
+        
+        self.free_button = tk.Button(root, text=self.t["free"], font=("Arial", 14), bg="#ffffff", fg="#1e1e1e", command=self.free_version)
+        self.free_button.pack(pady=10)
+        
+        self.pro_button = tk.Button(root, text=self.t["pro"], font=("Arial", 14), bg="#ffcc00", fg="#1e1e1e", command=self.pro_version)
+        self.pro_button.pack(pady=10)
+    
+    def run_scan(self):
+        messagebox.showinfo(self.t["scan"], self.t["scan_msg"])
+    
+    def optimize_system(self):
+        messagebox.showinfo(self.t["optimize"], self.t["opt_msg"])
+    
+    def monitor_network(self):
+        messagebox.showinfo(self.t["network"], self.t["net_msg"])
+    
+    def free_version(self):
+        messagebox.showinfo(self.t["free"], self.t["free_msg"])
+    
+    def pro_version(self):
+        messagebox.showinfo(self.t["pro"], self.t["pay_msg"])
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = HyperShieldApp(root)
+    root.mainloop()
